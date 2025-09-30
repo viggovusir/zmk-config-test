@@ -1,9 +1,6 @@
 // kbd3x3.overlay
 #include <dt-bindings/zmk/matrix_transform.h>
 
-&gpio0;  // ensure gpio0 is referenced so the &gpio0 symbol is defined
-&gpio1;  // likewise
-
 / {
     kscan0: kscan0 {
         compatible = "zmk,kscan-gpio-matrix";
