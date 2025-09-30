@@ -3,6 +3,14 @@
 #include <dt-bindings/zmk/keys.h>
 
  / {
+    behaviors{
+        td0: enter_bootloader {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&bootloader>;
+        }
+    }
     keymap {
         compatible = "zmk,keymap";
 
@@ -10,7 +18,7 @@
             bindings = <
                 &kp A    &kp B    &kp C
                 &kp D    &kp E    &kp F
-                &kp G    &kp H    &kp I
+                &kp G    &kp H    &td0
             >;
         };
     };
