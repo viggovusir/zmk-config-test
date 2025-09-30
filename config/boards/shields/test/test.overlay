@@ -1,0 +1,62 @@
+// kbd3x3.overlay
+#include <dt-bindings/zmk/matrix_transform.h>
+
+&gpio0;  // ensure gpio0 is referenced so the &gpio0 symbol is defined
+&gpio1;  // likewise
+
+/ {
+    kscan0: kscan0 {
+        compatible = "zmk,kscan-gpio-matrix";
+        diode-direction = "col2row";  // pick the correct direction per your hardware
+        wakeup-source;
+
+        col-gpios = <
+            &gpio0 9 GPIO_ACTIVE_HIGH
+            &gpio0 10 GPIO_ACTIVE_HIGH
+        >;
+
+        row-gpios = <
+            &gpio0 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)
+            &gpio1 4  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)
+            &gpio1 6  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)
+        >;
+    };
+
+    default_transform: keymap_transform {
+        compatible = "zmk,matrix-transform";
+        columns = <2>;
+        rows = <3>;
+
+        // The `map` table remaps (row, col) pairs from scanning to logical key positions.
+        // Because you have a “duplex” arrangement (you said col 1 actually covers 2 physical columns),
+        // you must expand your logical “columns” count to reflect the effective two physical columns.
+        //
+        // For example: you could treat it as if there are 3 logical columns, but physically
+        // you scan 2 lines (since one of them doubles). In such a case, you can set columns = <3>
+        // and rows = <3>, and have some “empty / invalid” slots in the map if needed.
+        //
+        // Below is an illustrative 3×3 mapping, assuming you pretend there are 3 columns logically:
+        columns = <3>;
+        rows = <3>;
+
+        map = <
+            /* row0 */  RC(0,0)  RC(0,1)  RC(0,2)
+            /* row1 */  RC(1,0)  RC(1,1)  RC(1,2)
+            /* row2 */  RC(2,0)  RC(2,1)  RC(2,2)
+        >;
+    };
+
+    physical_layout0: physical_layout_0 {
+        compatible = "zmk,physical-layout";
+        display-name = "3x3 Duplex Layout";
+        kscan = <&kscan0>;
+        transform = <&default_transform>;
+
+        /* Optionally you can define `keys = <…>` to place them in the UI, but not mandatory */
+    };
+
+    chosen {
+        zmk,kscan = <&kscan0>;
+        zmk,matrix-transform = <&default_transform>;
+    };
+};
