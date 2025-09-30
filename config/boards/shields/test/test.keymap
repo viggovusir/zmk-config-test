@@ -4,7 +4,7 @@
 
  / {
     behaviors{
-        mt: enter_bootloader {
+        bt: enter_bootloader {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             flavor = "hold-preferred";
@@ -20,7 +20,7 @@
             bindings = <
                 &kp A    &kp B    &kp C
                 &kp D    &kp E    &kp F
-                &kp G    &kp H    &mt I
+                &kp G    &kp H    &bt I
             >;
         };
     };
