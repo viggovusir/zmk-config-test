@@ -4,14 +4,15 @@
 
  / {
     behaviors{
-        td0: enter_bootloader {
-            compatible = "zmk,behavior-tap-dance";
-            #binding-cells = <0>;
+        mt: enter_bootloader {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "hold-preferred";
             tapping-term-ms = <200>;
-            bindings = <&bootloader>;
+            bindings = <&kp>, <&bootloader>;
         };
     };
-    
+
     keymap {
         compatible = "zmk,keymap";
 
@@ -19,7 +20,7 @@
             bindings = <
                 &kp A    &kp B    &kp C
                 &kp D    &kp E    &kp F
-                &kp G    &kp H    &td0
+                &kp G    &kp H    &mt I
             >;
         };
     };
